@@ -1,0 +1,22 @@
+{
+  "name": "PythagorasUI",
+  "version": "0.0.0",
+  "description": "Wrap of PrimeUI with Angularjs",
+  "main": "js/controller/GpsCtrl.js",
+  "authors": [
+    "dott. A. Vitturi - MBM Italia s.r.l"
+  ],
+  "license": "LGPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "jQuery": "~2.1.1",
+    "jquery-ui": "~1.11",
+    "angularjs": "~1.3.8"
+  }
+}

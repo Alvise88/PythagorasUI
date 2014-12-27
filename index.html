@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css" />
+    <link rel="stylesheet" href="primeui/development/primeui-1.1.css" />
+    <link rel="stylesheet" href="primeui/themes/bootstrap/theme.css" />
+
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script type="text/javascript" src="primeui/development/primeui-1.1.js"></script>
+    <title></title>
+
+
+</head>
+<body>
+<div id="default"></div>
+<div id="tbllocal"></div>
+
+<script type="application/javascript">
+    $(function() {
+        //initialize
+        $('#default').puigrowl();
+
+        //show messages
+        $('#default').puigrowl('show', [{severity: 'info', summary: 'Message Summary', detail: 'Message Detail'}]);
+
+        $('#tbllocal').puidatatable({
+            caption: 'Local Datasource',
+            paginator: {
+                rows: 5
+            },
+            columns: [
+                {field: 'vin', headerText: 'Vin', sortable: true},
+                {field: 'brand', headerText: 'Brand', sortable: true},
+                {field: 'year', headerText: 'Year', sortable: true},
+                {field: 'color', headerText: 'Color', sortable: true}
+            ],
+            datasource: [
+                {'brand': 'Volkswagen', 'year': 2012, 'color': 'White', 'vin': 'dsad231ff'},
+                {'brand': 'Audi', 'year': 2011, 'color': 'Black', 'vin': 'gwregre345'},
+                {'brand': 'Renault', 'year': 2005, 'color': 'Gray', 'vin': 'h354htr'},
+                {'brand': 'Bmw', 'year': 2003, 'color': 'Blue', 'vin': 'j6w54qgh'},
+                {'brand': 'Mercedes', 'year': 1995, 'color': 'White', 'vin': 'hrtwy34'},
+                {'brand': 'Opel', 'year': 2005, 'color': 'Black', 'vin': 'jejtyj'},
+                {'brand': 'Honda', 'year': 2012, 'color': 'Yellow', 'vin': 'g43gr'},
+                {'brand': 'Chevrolet', 'year': 2013, 'color': 'White', 'vin': 'greg34'},
+                {'brand': 'Opel', 'year': 2000, 'color': 'Black', 'vin': 'h54hw5'},
+                {'brand': 'Mazda', 'year': 2013, 'color': 'Red', 'vin': '245t2s'}
+            ],
+            selectionMode: 'single',
+            rowSelect: function (event, data) {
+                $('#messages').puigrowl('show', [{
+                    severity: 'info',
+                    summary: 'Row Selected',
+                    detail: (data.brand + ' ' + data.vin)
+                }]);
+            },
+            rowUnselect: function (event, data) {
+                $('#messages').puigrowl('show', [{
+                    severity: 'info',
+                    summary: 'Row Unselected',
+                    detail: (data.brand + ' ' + data.vin)
+                }]);
+            }
+        });
+        /*$('#btn-info').click(function() {
+            addMessage([{severity: 'info', summary: 'Message Title', detail: 'Message Detail here.'}]);
+        });*/
+    });
+</script>
+</body>
+</html>
