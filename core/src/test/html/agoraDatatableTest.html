@@ -4,15 +4,30 @@
     <meta charset="UTF-8">
     <title>agoraDatatable</title>
 
+    <link rel="stylesheet" href="../../../../bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css" />
+    <link rel="stylesheet" href="../../../../primeui/development/primeui-1.1.css" />
+    <link rel="stylesheet" href="../../../../primeui/themes/bootstrap/theme.css" />
+
+
     <script type="text/javascript" src="../../../../bower_components/jquery/dist/jquery.js" ></script>
+    <script type="text/javascript" src="../../../../bower_components/jquery-ui/jquery-ui.js"></script>
+    <script type="text/javascript" src="../../../../primeui/development/primeui-1.1.js" ></script>
+
     <script type="text/javascript" src="../../../../bower_components/angularjs/angular.js"></script>
     <script type="text/javascript" src="../../main/directives/agoraDatatable.js" ></script>
     <script type="text/javascript" src="../../test/js/controller/agoraDatatableCtrl.js" ></script>
 </head>
-<body>
+<body ng-controller="AgoraCtrl">
 <input ng-model="name">
 
 <input ng-model="surname">
 Name: {{name}} Surname: {{surname}}
+
+<div id="tbl"></div>
+
+<agora-datatable id="baseTable" value="localData">
+    <agora-column></agora-column>
+</agora-datatable>
+
 </body>
 </html>
