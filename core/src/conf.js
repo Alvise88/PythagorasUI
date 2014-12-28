@@ -4,5 +4,6 @@ exports.config = {
     capabilities: {
         'browserName': 'firefox' // or 'safari'
     },
-    specs: ['test/spec.js']
+    baseUrl: 'http://localhost:63342',
+    specs: ['test/js/agoraDatatableTest.js']
 }
