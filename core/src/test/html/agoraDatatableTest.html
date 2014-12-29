@@ -14,8 +14,14 @@
     <script type="text/javascript" src="../../../../primeui/development/primeui-1.1.js" ></script>
 
     <script type="text/javascript" src="../../../../bower_components/angularjs/angular.js"></script>
+
+    <!-- Directives -->
     <script type="text/javascript" src="../../main/directives/agoraDatatable.js" ></script>
+    <script type="text/javascript" src="../../main/directives/agoraGrowl.js" ></script>
+
+    <!-- Controller -->
     <script type="text/javascript" src="../../test/js/controller/agoraDatatableCtrl.js" ></script>
+
 </head>
 <body ng-controller="AgoraCtrl">
 <input ng-model="name">
@@ -23,11 +29,23 @@
 <input ng-model="surname">
 Name: {{name}} Surname: {{surname}}
 
-<div id="tbl"></div>
 
-<agora-datatable id="baseTable" value="localData">
-    <agora-column></agora-column>
+<agora-growl id="messages"></agora-growl>
+
+<agora-datatable id="baseTable"
+                 name="Auto"
+                 value="localData"
+                 rows="5"
+                 selectionmode="single"
+                 row-select="showInfo">
+    <agora-column field="vin" headerText="Vin" sortable="true"></agora-column>
+    <agora-column field="brand" headerText="Brand" sortable="true"></agora-column>
+    <agora-column field="year" headerText="Year" sortable="true"></agora-column>
+    <agora-column field="color" headerText="Color" sortable="true"></agora-column>
 </agora-datatable>
+
+
+
 
 </body>
 </html>

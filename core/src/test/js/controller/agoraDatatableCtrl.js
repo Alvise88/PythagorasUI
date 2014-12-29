@@ -26,5 +26,10 @@
         $scope.dataTableExample = function(){
             return {"Hello": "World"};
         }
+
+
+        $scope.showInfo = function (event, data) {
+            $('#messages').puigrowl('show', [{severity: 'info', summary: 'Message Summary', detail: 'Message Detail'}]);
+        }
     });
 })();

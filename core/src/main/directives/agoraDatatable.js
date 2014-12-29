@@ -5,28 +5,44 @@
 (function(){
     "use strict";
 
+    // Module initialization
     angular.module('agora.widgets', []).factory('datatableUtils', function(){
         var datatableUtils = {};
 
         datatableUtils.determineOptions = function (scope, element, attrs) { // Only in link function
             var _options = scope.$eval(attrs.binding) || {},
                 id = attrs.id,
+                selectionMode = attrs.selectionmode || null,
+                caption = attrs.name || "",
+                rows = attrs.rows || 10, //Dafault value
                 tableData = scope.value; // Also inside isolation scope  //scope.$eval(attrs.value);
+
+
+            var paginator = {
+                rows: rows
+            }
 
             if (angular.isArray(tableData)) {
                 _options = {
                     id: id,
+                    caption: caption,
                     tableData : tableData,
+                    paginator: paginator,
+                    selectionMode: selectionMode, // null Default
                     functionBasedData : false
-                };
+                }; //Must have
             }
             if (angular.isFunction(tableData)) {
                 _options = {
                     id: id,
+                    caption: caption,
                     tableData : tableData,
+                    paginator: paginator,
+                    selectionMode: selectionMode, // null Default
                     functionBasedData : true
-                };
+                }; //Must have
             }
+
             return _options;
         };
 
@@ -39,7 +55,8 @@
             replace: true,
             transclude: true,
             scope: {
-                value: '=value'
+                value: '=',
+                rowSelect: '='
             },
             template: "<div ></div>",
             compile: function(tElement, tAttrs, transclude){ //Called before column
@@ -51,38 +68,21 @@
 
                     $log.debug('AgoraDatatable');
 
-                    //Before remove all child of agora table
-                    /*(function(){
-                        var myNode = element.get();
-                        while (myNode.firstChild) {
-                            myNode.removeChild(myNode.firstChild);
-                        }
-                    })(element);*/
                     scope.columns = [];
                     transclude(scope, function(clone, scope) { //Override standard transclude
                         //element.append(clone);
-                        //$log.debug(scope.value);
+                        $log.debug("DataTable transclusion");
                     });
-
 
                     $log.debug(scope.columns);
 
-                    /*
-                     columns: [
-                     {field:'vin', headerText: 'Vin', sortable:true},
-                     {field:'brand', headerText: 'Brand', sortable:true},
-                     {field:'year', headerText: 'Year', sortable:true},
-                     {field:'color', headerText: 'Color', sortable:true}
-                     ]
-                     */
-
                     $('#'+options.id).puidatatable({
-                        caption: 'Local Datasource',
-                        paginator: {
-                            rows: 5
-                        },
+                        caption: options.caption,
+                        paginator: options.paginator,
                         columns: scope.columns,
-                        datasource: options.tableData
+                        datasource: options.tableData,
+                        selectionMode: options.selectionMode,
+                        rowSelect: scope.rowSelect
                     });
                 }
 
@@ -98,8 +98,26 @@
             template: "<div></div>",
             compile: function(tElement, tAttrs, transclude){
 
+
+                function determineOptionsColumn(attrs){
+                    var field = attrs.field;
+                    var headerText = attrs.headerText;
+                    var sortable = attrs.sortable || false; // False defalt value
+
+
+                    return {
+                        field: field,
+                        headerText: headerText,
+                        sortable: sortable
+                    }
+                }
+
+
                 function link(scope, element, attrs){ //I have ovverride standard transclude
-                    scope.columns.push({field:'vin', headerText: 'Vin', sortable:true});
+
+                    var metaColumn = determineOptionsColumn(attrs);
+
+                    scope.columns.push(metaColumn);
 
                     $log.debug('AgoraColumn');
                 };
