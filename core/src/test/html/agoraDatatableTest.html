@@ -15,6 +15,10 @@
 
     <script type="text/javascript" src="../../../../bower_components/angularjs/angular.js"></script>
 
+    <!-- Services -->
+    <script type="text/javascript" src="../../main/store/centraldata.js"></script>
+    <script type="text/javascript" src="../../main/event/event.js"></script>
+
     <!-- Directives -->
     <script type="text/javascript" src="../../main/directives/agoraDatatable.js" ></script>
     <script type="text/javascript" src="../../main/directives/agoraGrowl.js" ></script>
@@ -24,11 +28,8 @@
 
 </head>
 <body ng-controller="AgoraCtrl">
-<input ng-model="name">
 
-<input ng-model="surname">
-Name: {{name}} Surname: {{surname}}
-
+<button ng-click="reset(this)">Reset</button>
 
 <agora-growl id="messages"></agora-growl>
 

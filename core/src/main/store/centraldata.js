@@ -20,7 +20,9 @@
 
             if(!guid){
                 guid = elem[expando] = guidCounter++;
-                cache[guid] = {};
+                cache[guid] = {
+                    handlers: []  // Default data storage
+                };
             }
             
             return cache[guid];

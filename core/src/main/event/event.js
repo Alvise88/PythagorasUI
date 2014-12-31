@@ -9,14 +9,26 @@
     "use strict";
 
     function AgoraEvent(source, target, action){
-        this.source = source; //Dom element (only agora root widget)
-        this.target = target; //Dom element (only agora root widget)
+        this.source = source; //Dom element or jquery (only agora root widget)
+        this.target = target; //Dom element or jquery (only agora root widget)
         this.action = action; //To execute
     }
+
+    AgoraEvent.prototype.print = function () {
+        return 'source: ' + this.source + " target: " + this.target + " action: " + this.action;
+    };
 
     angular.module('agora.event', ['agora.data']).factory('eventFactory', function($log){
 
         var eventFactory = {};
+
+        eventFactory.generateEvent = function (source, target, action) {
+            var agoraEvent = new AgoraEvent(source, target, action);
+
+            $log.debug('Generate event,' + agoraEvent.print() );
+
+            return agoraEvent;
+        };
 
         return eventFactory;
 
@@ -35,7 +47,7 @@
         };
 
         eventBus.isRegister = function(elem){
-            if(storage.getData().subscriberId){
+            if(storage.getData(elem).subscriberId){
                 return true;
             }
 
@@ -55,7 +67,23 @@
         };
 
         eventBus.post = function (event) {
-            $log.debug('');
+            $log.debug('Post event' + event);
+
+            var target = event.target;
+
+            if(target !=null && this.isRegister(target)){
+                $log.debug('Subscriber found');
+
+                var elemData = storage.getData(target);
+                var handlers = elemData.handlers;
+
+                handlers.forEach(function(handler) {
+                    $log.debug("Executing handler: " + handler);
+
+                    handler(event);
+                });
+
+            }
         };
 
         return eventBus;

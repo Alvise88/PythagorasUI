@@ -6,7 +6,7 @@
     "use strict";
 
     // Module initialization
-    angular.module('agora.widgets', []).factory('datatableUtils', function(){
+    angular.module('agora.widgets', ['agora.data', 'agora.event']).factory('datatableUtils', function(){
         var datatableUtils = {};
 
         datatableUtils.determineOptions = function (scope, element, attrs) { // Only in link function
@@ -47,8 +47,13 @@
         };
 
         return datatableUtils;
-    }).directive('agoraDatatable', function($log, datatableUtils){
+    }).directive('agoraDatatable', function($log, storage, eventBus, datatableUtils){
         //Utility
+
+        var actions = {
+            reset: 'reset'
+        };
+
 
         return {
             restrict: 'E',
@@ -76,7 +81,7 @@
 
                     $log.debug(scope.columns);
 
-                    $('#'+options.id).puidatatable({
+                    element.puidatatable({
                         caption: options.caption,
                         paginator: options.paginator,
                         columns: scope.columns,
@@ -84,6 +89,25 @@
                         selectionMode: options.selectionMode,
                         rowSelect: scope.rowSelect
                     });
+
+
+                    var domElement = element[0];
+                    var elemData = storage.getData(domElement);
+
+                    //Add base handler for datatable
+                    elemData.handlers.push(function(agoraEvent){
+                        $log.debug('Agora table dafault handler called');
+
+                        if(agoraEvent.action == 'reset'){
+                            $log.debug('Reset');
+                            element.puidatatable('reset');
+                        }
+
+                    });
+
+                    eventBus.register(domElement);
+
+
                 }
 
                 return link; // Return link function

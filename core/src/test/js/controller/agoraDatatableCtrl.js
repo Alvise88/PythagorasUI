@@ -5,7 +5,7 @@
 (function(){
     "use strict";
 
-    angular.module('AgoraTableTest',['agora.widgets']).controller('AgoraCtrl', function($scope){
+    angular.module('AgoraTableTest',['agora.widgets']).controller('AgoraCtrl', function($scope, $log, eventBus, eventFactory){
         $scope.cliccable = function(){
             console.info("Click");
         };
@@ -27,9 +27,23 @@
             return {"Hello": "World"};
         }
 
-
         $scope.showInfo = function (event, data) {
+
+
             $('#messages').puigrowl('show', [{severity: 'info', summary: 'Message Summary', detail: 'Message Detail'}]);
         }
+
+        $scope.reset = function (button) {
+            $log.debug('Reset pressed' + button);
+
+            var target = angular.element('#baseTable')[0];
+
+            $log.debug('Target: ' + target);
+
+            var agoraEvent = eventFactory.generateEvent(button, target, 'reset');
+
+            eventBus.post(agoraEvent);
+
+        };
     });
 })();
