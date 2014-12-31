@@ -8,7 +8,19 @@
 (function(){
     "use strict";
 
-    angular.module('agora.event', ['agora.data']).factory('evenBus', function(storage, $log){
+    function AgoraEvent(source, target, action){
+        this.source = source; //Dom element (only agora root widget)
+        this.target = target; //Dom element (only agora root widget)
+        this.action = action; //To execute
+    }
+
+    angular.module('agora.event', ['agora.data']).factory('eventFactory', function($log){
+
+        var eventFactory = {};
+
+        return eventFactory;
+
+    }).factory('eventBus', function(storage, $log){
         var eventBus = {},
             subscriberCounter = 1,
             subscriber = {};
